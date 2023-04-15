@@ -1,14 +1,23 @@
 library(tidyverse)
 library(readxl)
+library(jsonlite)
 
-rus_embassy_comms <- read_excel("/Users/dwaste/Desktop/Undergrad-Thesis-Repo/russia-narrative-link-list.xlsx")
+# Read in json file
+json <- fromJSON('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/telegram-scrape-output/EmbajadaRusa_CR/EmbajadaRusa_CR_messages.json')
 
-r <- rus_embassy_comms %>%
-    filter(platform == "Twitter")
+# Extract necessary data and combine into data frame
+data <- data.frame()
+for (i in 1:length(json['chats'])) {
+  temp_data <- data.frame(
+    username = json$messages[[i]]['username'],
+    message = sapply(json$messages, function(x) x['message']),
+    date = sapply(json$messages, function(x) x['date'])
+  )
+  data <- rbind(data, temp_data)
+}
 
-i = 0
+json$messages
 
-for(i in r$account) {
-    print(i)}
+print(json$messages[[1]]$username)
 
-    lang= c("es","pt")
+#write.csv(data, "/Users/dwaste/Desktop/Undergrad-Thesis-Repo/russian-ground-narrative-text-files/{username}.csv", row.names = FALSE)
