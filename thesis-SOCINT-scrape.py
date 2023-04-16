@@ -17,10 +17,9 @@ telegram_dat = rus_embassy_comms[rus_embassy_comms["platform"] == "Telegram"]
 facebook_dat = rus_embassy_comms[rus_embassy_comms["platform"] == "Facebook"]
 
 # iterate function over all twitter accounts
-#for i in twitter_dat['account']:
-#    twit_data = scrape(since="2022-01-01", until="2023-4-01", from_account = i, headless = False, lang = 'es')
-
-print(telegram_dat['account'])
+for i in twitter_dat['account']:
+    twit_data_es = scrape(since="2022-01-01", until="2023-4-01", from_account = i, headless = False, lang = 'es')
+    twit_data_pt = scrape(since="2022-01-01", until="2023-4-01", from_account = i, headless = False, lang = 'pt')
 
 
 

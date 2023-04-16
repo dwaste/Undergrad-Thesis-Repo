@@ -13,28 +13,33 @@ def format_body_text(text):
     cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
     # capitalize the first letter of each sentence
     cleaned_text = re.sub(r'bodytext', ' ', cleaned_text)
+    cleaned_text = re.sub(r'\s+\d+|\W+\s+|\t', '', cleaned_text)
     sentences = cleaned_text.split('. ')
     capitalized_sentences = [sentence.capitalize() for sentence in sentences]
     # join the sentences back together
     formatted_text = '. '.join(capitalized_sentences)
     return formatted_text
 
-# open the input CSV file and read the rows
-with open('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/sputnik-espanol-sanctions-scraper.csv', encoding= "utf-8") as csv_file:
+data = []
+
+with open('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/sputnik-espanol-sanctions-scraper.russian-news-ground-narrative-text.csv', encoding="utf-8") as csv_file:
     csv_reader = csv.DictReader(csv_file)
-    
-    # loop over each row and create a new CSV file with the formatted_text, date, title, and link.href columns
-    for i, row in enumerate(csv_reader):
+
+    # loop over each row and append the data to the list
+    for row in csv_reader:
         # rename columns and reformat text
         text = row['body-text']
         formatted_text = format_body_text(text)
         date = row['date']
         title = row['title']
         link = row['link-href']
-        # set context dependent file path
-        new_filename = f'/Users/dwaste/Desktop/Undergrad-Thesis-Repo/russian-ground-narrative-text-files/{title}.csv'
-        with open(new_filename, mode='w', newline='', encoding= "utf-8") as new_csv_file:
-            fieldnames = ['formatted_text', 'date', 'title', 'link.href']
-            writer = csv.DictWriter(new_csv_file, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerow({'formatted_text': formatted_text, 'date': date, 'title': title, 'link.href': link})
+        # append data as a dictionary to the list
+        data.append({'formatted_text': formatted_text, 'date': date, 'title': title, 'link.href': link})
+
+# write the list of data to a new CSV file
+with open('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/russian-ground-narrative-text-files/output.csv', mode='w', newline='', encoding="utf-8") as new_csv_file:
+    fieldnames = ['formatted_text', 'date', 'title', 'link.href']
+    writer = csv.DictWriter(new_csv_file, fieldnames=fieldnames)
+    writer.writeheader()
+    for row in data:
+        writer.writerow(row)
