@@ -27,7 +27,7 @@ def plot_graphs(history, metric):
   plt.legend([metric, 'val_'+metric])
 
 # load the data
-file = open('Capital-Volume-I.txt',"r",encoding = "utf8") #This is a file of your choice! Go Online and Find a pdf or book you want to use! Make sure it is a .txt file
+file = open('text.txt',"r",encoding = "utf8") #This is a file of your choice! Go Online and Find a pdf or book you want to use! Make sure it is a .txt file
 
 # put file into array
 lines = []

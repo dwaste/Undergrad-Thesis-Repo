@@ -10,9 +10,7 @@ file = open('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/russian-ground-narrativ
 # put file into array
 lines = []
 for i in file:
-  lines.append(i) 
-
-print(len(lines))
+  lines.append(i)
 
 # join the list into a string
 data = ""
