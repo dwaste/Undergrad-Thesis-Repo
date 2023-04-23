@@ -41,8 +41,8 @@ for i in lines:
 
 data = data.replace('\n','').replace('\r','').replace('\ufeff','')
 
-data =  data.split('deliminter')
-data =  data.array(data) #join data
+data = data.split('deliminter')
+data = data.array(data) #join data
 data[:500] #See the First 500 chars in your text file
 
 # preprocessing the data 
