@@ -10,12 +10,15 @@ text = '[{"body-text":"Logramos un acuerdo para prohibir la exportación de petr
 # define text cleaning function to collapse text information with into readable written format
 
 def format_body_text(text):
+    # remove emojis
+    cleaned_text = re.sub(r'[^\w\s,().]+|[\uD800-\uDBFF][\uDC00-\uDFFF]', '', text)
     # remove all non-letter characters except for spaces, ()'s, and commas
     cleaned_text = re.sub(r'[^a-zA-Z0-9 áéíóúüñç(),.]+(?<!\s\W)(?!\W\s)', ' ', text)
     # replace multiple spaces with a single space
     cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
     # capitalize the first letter of each sentence
     cleaned_text = re.sub(r' body text ', ' ', cleaned_text)
+    cleaned_text = re.sub(r' tags ', ' ', cleaned_text)
     cleaned_text = re.sub(r'\s+\d+|\W+\s+|\t', ' ', cleaned_text)
     sentences = re.split(r'(?<=[.!?])\s+', cleaned_text)
     capitalized_sentences = [sentence.capitalize() for sentence in sentences]
@@ -39,11 +42,13 @@ def create_country_columns(df, given_country_dict):
     return new_df
 
 # read the CSV file into a pandas DataFrame
-df = pd.read_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/sputnik-espanol-sanctions-scraper.csv', encoding='utf-8')
+df = pd.read_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/sputnik-mundo-data-labeled/sputnik-espanol-demildenazi-scraper.csv', encoding='utf-8')
 
 # rename columns and reformat text
-df = df.rename(columns={'body-text': 'formatted_text', 'link-href': 'link_href'})
+df = df.rename(columns={'body-text': 'formatted_text', 'link-href': 'link_href', 'tags': 'formatted_tags'})
+
 df['formatted_text'] = df['formatted_text'].apply(format_body_text)
+df['formatted_tags'] = df['formatted_tags'].apply(format_body_text)
 
 # add country names to create new indentification columns
 given_country_names = {
@@ -78,6 +83,6 @@ df = df.drop("link", axis= 1)
 # drop rows with missing values
 df = df.dropna()
 
-# write the DataFrame to a new CSV file
-df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/sputnik-data-transformed.csv', mode = 'w', index=False, encoding='utf-8')
+# write the DataFrame to a new CSV file need to have header=True, when appending header=False
+df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/sputnik-data-transformed.csv', mode = 'a', index=False, header=False, encoding='utf-8')
         
