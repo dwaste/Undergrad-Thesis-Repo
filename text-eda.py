@@ -46,9 +46,14 @@ plot_word_frequency(df, 'formatted_tags')
 # Specify the name of the text column to analyze
 text_column = 'formatted_tags'
 
-# Get all unique values in the text column
-unique_values = df[text_column].unique()
+binary_columns = ['Economía', 'Defensa', 'Internacional', 'América Latina', 'Neonazismo en Ucrania']
 
-# Print the unique values
-for value in unique_values:
-    print(value)
+# function to plot the distribution of binary columns
+def plot_binary_distribution(df, binary_columns):
+    for col in binary_columns:
+        counts = Counter(df[col])
+        plt.bar(counts.keys(), counts.values())
+        plt.title(col)
+        plt.show()
+
+plot_binary_distribution(df, binary_columns)
