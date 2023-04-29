@@ -13,7 +13,7 @@ def format_body_text(text):
     # remove emojis
     cleaned_text = re.sub(r'[^\w\s,().]+|[\uD800-\uDBFF][\uDC00-\uDFFF]', '', text)
     # remove all non-letter characters except for spaces, ()'s, and commas
-    cleaned_text = re.sub(r'[^a-zA-Z0-9 áéíóúüñç(),.]+(?<!\s\W)(?!\W\s)', ' ', text)
+    cleaned_text = re.sub(r'[^a-zA-Z0-9 áéíóúüñç(),.]+(?<!\s\W)(?!\W\s)', ' ', cleaned_text)
     # replace multiple spaces with a single space
     cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
     # capitalize the first letter of each sentence
@@ -24,7 +24,7 @@ def format_body_text(text):
     capitalized_sentences = [sentence.capitalize() for sentence in sentences]
     # join the sentences back together
     formatted_text = ' '.join(capitalized_sentences)
-    return formatted_text
+    return str(formatted_text)
 
 def create_country_columns(df, given_country_dict):
     new_columns = {}
@@ -84,5 +84,5 @@ df = df.drop("link", axis= 1)
 df = df.dropna()
 
 # write the DataFrame to a new CSV file need to have header=True, when appending header=False
-df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/combined-Sputnik-Brasil-data.csv', mode = 'w', index=False, header=True, encoding='utf-8')
+df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/transformed-Sputnik-Brasil-data.csv', mode = 'w', index=False, header=True, encoding='utf-8')
         

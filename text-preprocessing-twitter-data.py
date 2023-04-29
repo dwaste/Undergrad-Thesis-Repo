@@ -10,8 +10,6 @@ text = '🇷🇺🇧🇷 En el marco de su misión a Brasil, el Canciller ruso, 
 # define text cleaning function to collapse text information with into readable written format
 
 def format_body_text(text):
-    # remove emojis
-    cleaned_text = re.sub(r'[^\w\s,().]+|[\uD800-\uDBFF][\uDC00-\uDFFF]', '', text)
     # remove all non-letter characters except for spaces, ()'s, and commas
     cleaned_text = re.sub(r'[^a-zA-Z0-9 áéíóúüñç(),.]+(?<!\s\W)(?!\W\s)', ' ', text)
     # replace multiple spaces with a single space
@@ -37,7 +35,7 @@ def create_country_columns(df, given_country_dict):
         if col_name in df.columns:
             new_columns[col_name] = np.where(new_col | (df[col_name] == 'YES'), 'YES', 'NO')
         else:
-            new_columns[col_name] = np.where(new_col1, 'YES', 'NO')
+            new_columns[col_name] = np.where(new_col, 'YES', 'NO')
     new_df = pd.concat([df, pd.DataFrame(new_columns)], axis=1)
     return new_df
 

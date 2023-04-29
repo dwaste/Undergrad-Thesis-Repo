@@ -2,7 +2,6 @@
 import re
 import pandas as pd
 import numpy as np
-import emoji
 
 # set example text so that function can be created before CSV file is read into script
 text = '🇷🇺🇧🇷 En el marco de su misión a Brasil, el Canciller ruso, Serguéi Lavrov, se reunió con su homólogo brasileño, el Ministro de Relaciones Exteriores Mauro Vieira, para mantener negociaciones bilaterales. 📍 Brasilia, 17 de abril'
@@ -11,9 +10,6 @@ text = '🇷🇺🇧🇷 En el marco de su misión a Brasil, el Canciller ruso, 
 # define text cleaning function to collapse text information with into readable written format
 
 def format_body_text(text):
-    # remove emojis
-    #cleaned_text = re.sub(r'[^\w\s,().]+|[\uD800-\uDBFF][\uDC00-\uDFFF]', '', text) 
-    cleaned_text = emoji.get_emoji_regexp().sub(r'', text.decode('utf8'))
     # remove all non-letter characters except for spaces, ()'s, and commas
     cleaned_text = re.sub(r'[^a-zA-Z0-9 áéíóúüñç(),.]+(?<!\s\W)(?!\W\s)', ' ', text)
     # replace multiple spaces with a single space
