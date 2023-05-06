@@ -17,8 +17,8 @@ def format_body_text(text):
     # replace multiple spaces with a single space
     cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
     # capitalize the first letter of each sentence
-    cleaned_text = re.sub(r' body text ', ' ', cleaned_text)
-    cleaned_text = re.sub(r' tags ', ' ', cleaned_text)
+    cleaned_text = re.sub(r'bodytext', '', cleaned_text)
+    cleaned_text = re.sub(r'tags', '', cleaned_text)
     cleaned_text = re.sub(r'\s+\d+|\W+\s+|\t', ' ', cleaned_text)
     sentences = re.split(r'(?<=[.!?])\s+', cleaned_text)
     capitalized_sentences = [sentence.capitalize() for sentence in sentences]
@@ -43,6 +43,9 @@ def create_country_columns(df, given_country_dict):
 
 # read the CSV file into a pandas DataFrame
 df = pd.read_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/sptunik-and-SOCINT-data-unlabeled/sputnik-brasil-smo-news-scraper.csv', encoding='utf-8')
+
+# drop rows with missing values
+df = df.dropna()
 
 # rename columns and reformat text
 df = df.rename(columns={'body-text': 'formatted_text', 'link-href': 'link_href', 'tags': 'formatted_tags'})

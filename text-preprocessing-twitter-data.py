@@ -40,10 +40,13 @@ def create_country_columns(df, given_country_dict):
     return new_df
 
 # read the CSV file into a pandas DataFrame
-df = pd.read_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/sptunik-and-SOCINT-data-unlabeled/telegram-msgs-dataset.csv', encoding='utf-8', usecols=["channel_name", "cleaned_message", "date", "views", "number_replies", "number_forwards", "is_forward"])
+df = pd.read_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/sptunik-and-SOCINT-data-unlabeled/combined-twitter-data.csv', encoding='utf-8')
+
+# drop rows with missing values
+df = df.dropna()
 
 # rename columns and reformat text
-df = df.rename(columns={'cleaned_message': 'formatted_text'})
+df = df.rename(columns={'Embedded_text': 'formatted_text'})
 
 df['formatted_text'] = df['formatted_text'].apply(format_body_text)
 
@@ -71,6 +74,9 @@ given_country_names = {
 # drop rows with missing values
 df = df.dropna()
 
+# extract relevant columns
+df = df[['UserScreenName', 'formatted_text', 'Timestamp', 'Comments', 'Likes', 'Retweets']]
+
 # write the DataFrame to a new CSV file need to have header=True, when appending header=False
-df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/telegram-data-transformed.csv', mode = 'w', index=False, header=True, encoding='utf-8')
+df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/twitter-data-transformed.csv', mode = 'w', index=False, header=True, encoding='utf-8')
         

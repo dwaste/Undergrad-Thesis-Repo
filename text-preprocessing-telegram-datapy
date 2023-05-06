@@ -22,7 +22,6 @@ def format_body_text(text):
     capitalized_sentences = [sentence.capitalize() for sentence in sentences]
     # join the sentences back together
     formatted_text = ' '.join(capitalized_sentences)
-    print(formatted_text)
     return formatted_text
 
 def create_country_columns(df, given_country_dict):
@@ -71,6 +70,9 @@ given_country_names = {
    "Japan" : ["Japón", "Japão"]
    }
 
+# drop rows with missing values
+df["formatted_text"] = df["formatted_text"].dropna()
+
 # write the DataFrame to a new CSV file need to have header=True, when appending header=False
-df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/telegram-data-transformed.csv', mode = 'w', index=False, header=True, encoding='utf-8')
+df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/telegram-transformed-data.csv', mode = 'w', index=False, header=True, encoding='utf-8')
         
