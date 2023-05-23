@@ -1,32 +1,32 @@
 import pandas as pd 
 import re
 
-sputnik_mundo_data = pd.read_csv("/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/sputnik-mundo-transformed-data.csv", encoding="utf-8")
-sputnik_brasil_data = pd.read_csv("/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/sputnik-brasil-transformed-data.csv", encoding="utf-8")
-twit_data = pd.read_csv("/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/twitter-transformed-data.csv", encoding="utf-8")
-tele_data = pd.read_csv("/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/telegram-transformed-data.csv", encoding="utf-8")
+sputnik_mundo_data = pd.read_csv("C:/Users/Dylan/Desktop/Undergrad-Thesis-Repo/transformed-data/sputnik-mundo-transformed-data.csv", encoding="utf-8")
+#sputnik_brasil_data = pd.read_csv("/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/sputnik-brasil-transformed-data.csv", encoding="utf-8")
+twit_data = pd.read_csv("C:/Users/Dylan/Desktop/Undergrad-Thesis-Repo/transformed-data/twitter-transformed-data.csv", encoding="utf-8")
+#tele_data = pd.read_csv("/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/telegram-transformed-data.csv", encoding="utf-8")
 
-def merge_dataframes(df1, df2, df3, df4):
+def merge_dataframes(df1, df3):
     # add platform column to each dataframe
     df1['platform'] = 'Sputnik Mundo'
-    df2['platform'] = 'Sputnik Brasil'
+    #df2['platform'] = 'Sputnik Brasil'
     df3['platform'] = 'Twitter'
-    df4['platform'] = 'Telegram'
+    #df4['platform'] = 'Telegram'
     
     # add row_index column to each dataframe
     df1['row_index'] = range(len(df1))
-    df2['row_index'] = range(len(df2))
+    #df2['row_index'] = range(len(df2))
     df3['row_index'] = range(len(df3))
-    df4['row_index'] = range(len(df4))
+    #df4['row_index'] = range(len(df4))
     
     # rename columns in each dataframe
     df1 = df1.rename(columns={'title': 'title_or_account'})
-    df2 = df2.rename(columns={'title': 'title_or_account'})
-    df3 = df3.rename(columns={'channel_name': 'title_or_account'})
-    df4 = df4.rename(columns={'UserScreenName': 'title_or_account', 'Timestamp': 'date'})
+    #df2 = df2.rename(columns={'title': 'title_or_account'})
+    df3 = df3.rename(columns={'UserScreenName': 'title_or_account', 'Timestamp' : 'date'})
+    #df4 = df4.rename(columns={'UserScreenName': 'title_or_account'})
     
     # merge dataframes
-    merged_df = pd.concat([df1, df2, df3, df4], ignore_index=True)
+    merged_df = pd.concat([df1, df3], ignore_index=True)
     
     # add label column and fill null values
     merged_df['Economía'] = merged_df['Economía'].fillna(-1)
@@ -45,8 +45,8 @@ def merge_dataframes(df1, df2, df3, df4):
 
     return merged_df
 
-merged_df = merge_dataframes(sputnik_mundo_data, sputnik_brasil_data, twit_data, tele_data)
+merged_df = merge_dataframes(sputnik_mundo_data, twit_data)
 
 # write the DataFrame to a new CSV file need to have header=True, when appending header=False
-merged_df.to_csv('/Users/dwaste/Desktop/Undergrad-Thesis-Repo/transformed-data/combined_transformated_data.csv', mode = 'w', index=False, header=True, encoding='utf-8')
+merged_df.to_csv('C:/Users/Dylan/Desktop/Undergrad-Thesis-Repo/transformed-data/combined_transformated_data.csv', mode = 'w', index=False, header=True, encoding='utf-8')
 
